@@ -39,3 +39,17 @@ JavaScript-syntaks kontrolleret med Node. Testet i browser: start med 50 spørgs
 
 ### Forklaringer i datasættet
 `data.js` indeholder 124 faste begrebsforklaringer i `conceptExplanations`, forklaringer til alle 37 cases i `scenarioRaw`, samt ekstra fejlbegrundelser og relevante begreber i `scenarioWrongReasons` og `scenarioConcepts`. Hvert af de 50 udvalgte spørgsmål har derfor en forklaring. Begrebsspørgsmål forklarer også, hvilket andet begreb et forkert svar beskriver. Svaret markeres med tekst, ✓/✕ og farve. Tidligere svar kan genbesøges, men ikke ændres.
+
+## Samlet øveforløb (v3)
+
+- Navigation: Hjem, Øv begreber, Flashcards, Test.
+- Øv begreber viser ét begreb ad gangen med søgning, kapitelfilter, filter for ikke-lærte, forrige/næste, blanding, egen forklaring, Vis facit og markeringerne Kan det / Skal øves mere. Kladder gemmes pr. begreb.
+- Forsidens klar-bar beregnes som 30 % testmål + 30 % begrebsmål + 40 % scoremål. Hver del er begrænset til sit maksimum. Målene er fem 50-spørgsmålsprøver, 80 % lærte begreber og 80 % gennemsnit på de seneste fem prøver. Træning og fejltræning påvirker ikke prøvetælleren eller prøvegennemsnittet.
+- Scoreudvikling vises i en tilgængelig SVG-graf med en tabel over alle prøver. Grafen viser de seneste 20; den fulde historik bevares.
+- A, B, C og D besvarer aktive spørgsmål. Enter eller højrepil går videre efter et svar; venstrepil går tilbage. Genvejene er slået fra ved tekstindtastning og åbne dialoger.
+- Afslut test følger med under scroll og beder om bekræftelse. Ubesvarede tæller som forkerte. Den oprindelige mulighed for at kassere et forsøg uden resultat er stadig tilgængelig som en separat handling.
+- Resultatet viser procentbar, alle svar, det rigtige svar og forklaringer. Tag testen igen blander de samme spørgsmål og deres svarmuligheder. Nye prøver udvælges fortsat fra hele banken.
+- Nye afsluttede forsøg gemmes med spørgsmål, egne svar og forklaringer. De kan genåbnes fra historikken. Tidligere resultatposter uden svararkiv bevares som scoreoversigter.
+- Alt gemmes under den eksisterende localStorage-nøgle, så tidligere lærte begreber og scorer bevares. Ingen data sendes fra appen.
+
+Valideret: JavaScript-syntaks; klar-barens grænser, træningsafgrænsning og tre delmål; tastatursvar, næste/forrige, tidlig aflevering med ubesvarede, 50 resultatrækker, genåbning af gemt resultat samt kladder ved skift frem og tilbage mellem begreber.
