@@ -80,3 +80,13 @@ $('.skip').addEventListener('click',e=>{e.preventDefault();const section=documen
 
 $('#history').onclick=e=>{const button=e.target.closest('[data-history]');if(!button)return;const h=state.history[+button.dataset.history];if(!h?.questions)return;if(quiz){saveQuiz();clearInterval(timer);quiz=null}location.hash='quiz';$('#quizSetup').hidden=true;$('#quizPlay').hidden=true;$('#quizResult').hidden=false;renderResult({mode:h.mode,questions:h.questions,answers:h.answers||[]},h.time||'Gemt resultat')};
 document.addEventListener('keydown',e=>{if(!quiz||$('#quiz').hidden||$('#quizPlay').hidden||$('#confirmDialog').open||e.repeat||e.altKey||e.ctrlKey||e.metaKey||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)||e.target.isContentEditable)return;const letter=e.key.toUpperCase();if(/^[ABCD]$/.test(letter)){e.preventDefault();if(!quiz.revealed[quiz.at])$('#quizPlay').querySelector(`[data-option="${'ABCD'.indexOf(letter)}"]`)?.click();return}if(e.key==='ArrowRight'||e.key==='Enter'){if(e.key==='Enter'&&e.target.tagName==='BUTTON'&&e.target.id!=='qNext'&&!e.target.hasAttribute('data-option'))return;e.preventDefault();$('#qNext')?.click()}if(e.key==='ArrowLeft'){e.preventDefault();if(quiz.at>0)$('#qPrev').click()}});
+
+// Telefon: swipe mellem flashcards uden at blokere lodret rulning.
+let flashTouch=null;
+$('#flashcard').addEventListener('touchstart',e=>{if(e.touches.length!==1)return;const t=e.touches[0];flashTouch={x:t.clientX,y:t.clientY,time:Date.now()}},{passive:true});
+$('#flashcard').addEventListener('touchend',e=>{if(!flashTouch||!e.changedTouches.length)return;const t=e.changedTouches[0],dx=t.clientX-flashTouch.x,dy=t.clientY-flashTouch.y,elapsed=Date.now()-flashTouch.time;flashTouch=null;if(elapsed<800&&Math.abs(dx)>65&&Math.abs(dx)>Math.abs(dy)*1.7){e.preventDefault();moveFlash(dx<0?1:-1)}},{passive:false});
+$('#flashcard').addEventListener('touchcancel',()=>{flashTouch=null},{passive:true});
+// Giv det virtuelle tastatur plads; ændr ikke brugerens zoomindstilling.
+const mobileViewport=window.visualViewport;
+function updateKeyboardSpace(){const editing=/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName||'');document.body.classList.toggle('keyboard-open',!!mobileViewport&&editing&&window.innerHeight-mobileViewport.height>140)}
+mobileViewport?.addEventListener('resize',updateKeyboardSpace);document.addEventListener('focusin',updateKeyboardSpace);document.addEventListener('focusout',()=>requestAnimationFrame(updateKeyboardSpace));
